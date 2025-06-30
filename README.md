@@ -12,7 +12,7 @@ A structural VHDL project implementing a fully functional UART system integrated
 - **DE2 Cyclone FPGA Board**
 
 
-##Project Description
+## Project Description
 
 The goal of this project was to design and implement a UART communication system entirely in structural VHDL. This UART was then integrated with a traffic light controller FSM to transmit debug messages to a PC. The project reinforces core concepts in digital systems, FSM design, synchronization, and hardware-software integration using FPGA platforms.
 
