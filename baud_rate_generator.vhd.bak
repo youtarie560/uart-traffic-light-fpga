@@ -1,0 +1,45 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity baud_rate_generator is
+    generic (
+        BITS : integer := 4
+    );
+    port (
+        clk       : in  std_logic;
+        reset_n   : in  std_logic;
+        enable    : in  std_logic;
+        FINAL_VALUE : in  std_logic_vector(BITS - 1 downto 0);
+        done      : out std_logic
+    );
+end entity baud_rate_generator;
+
+architecture behavioral of baud_rate_generator is
+    signal Q_reg, Q_next : unsigned(BITS - 1 downto 0);
+begin
+
+    process (clk, reset_n)
+    begin
+        if reset_n = '0' then
+            Q_reg <= to_unsigned(0, BITS);
+        elsif rising_edge(clk) then
+            if enable = '1' then
+                Q_reg <= Q_next;
+            end if;
+        end if;
+    end process;
+
+    -- Next state logic
+    done <= '1' when Q_reg = unsigned(FINAL_VALUE) else '0';
+
+    process (all)  -- Combinational process for Q_next
+    begin
+        if done = '1' then
+            Q_next <= to_unsigned(0, BITS);
+        else
+            Q_next <= Q_reg + 1;
+        end if;
+    end process;
+
+end architecture behavioral;
